@@ -65,6 +65,9 @@ public class OrderItem implements Serializable {
         this.id.setProduct(product);
     }
 
+    public double getSubTotal(){
+        return this.price * this.quantity;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -78,6 +81,7 @@ public class OrderItem implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 
 
 }

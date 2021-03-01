@@ -2,11 +2,14 @@ package com.webservice.course.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.webservice.course.entities.enums.OrderStatus;
+import com.webservice.course.entities.pk.OrderItemPK;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -24,9 +27,16 @@ public class Order implements Serializable {
 
     private Integer orderStatus;
 
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
+
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> orderItems = new HashSet<>();
+
+
 
 
     public Order() {
@@ -75,6 +85,10 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Set<OrderItem> getItems(){
+        return this.orderItems;
     }
 
     @Override

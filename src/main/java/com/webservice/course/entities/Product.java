@@ -1,10 +1,14 @@
 package com.webservice.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -26,6 +30,11 @@ public class Product implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> orderItems = new HashSet<>();
+
 
 
     public Product() { }
@@ -81,6 +90,12 @@ public class Product implements Serializable {
     public Set<Category> getCategories() {
         return categories;
     }
+
+    @JsonIgnore
+    public Set<Order> getOrders(){
+        return orderItems.stream().map(OrderItem::getOrder).collect(Collectors.toSet());
+    }
+
 
     @Override
     public boolean equals(Object o) {
